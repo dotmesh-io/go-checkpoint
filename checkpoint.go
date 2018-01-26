@@ -166,8 +166,15 @@ func Check(p *CheckParams) (*CheckResponse, error) {
 		}
 	}
 
-	u.Scheme = os.Getenv("CHECKPOINT_SCHEME")
-	u.Host = os.Getenv("CHECKPOINT_HOST")
+	checkPoint := os.Getenv("CHECKPOINT_URL")
+	checkPointURL, err := url.Parse(checkPoint)
+
+	if err != nil {
+		return nil, err
+	}
+
+	u.Scheme = checkPointURL.Scheme
+	u.Host = checkPointURL.Host
 	u.Path = fmt.Sprintf("/v1/check/%s", p.Product)
 	u.RawQuery = v.Encode()
 

@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -37,9 +36,7 @@ func setup() {
 		}
 		json.NewEncoder(w).Encode(response)
 	}))
-	checkPointURL, _ := url.Parse(srv.URL)
-	os.Setenv("CHECKPOINT_SCHEME", checkPointURL.Scheme)
-	os.Setenv("CHECKPOINT_HOST", checkPointURL.Host)
+	os.Setenv("CHECKPOINT_URL", srv.URL)
 }
 
 func teardown() {
